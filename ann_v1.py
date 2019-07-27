@@ -15,7 +15,7 @@ def sigma(x):
 
 def load():
 	#print(sheet.cell_value(0,0),sheet.nrows,sheet.ncols) 
-	database1 = xlrd.open_workbook("D:/Projects/Git2/Old-School-Logistic-Regression-as-a-Neural-Network/dataset1.xlsx")
+	database1 = xlrd.open_workbook("D:/Projects/Git2/Old-School-Logistic-Regression-as-a-Neural-Network/fix_dataset2.xlsx")
 	sheet = database1.sheet_by_index(0)
 	fileds = []
 	m = sheet.nrows -1  

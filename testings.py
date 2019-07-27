@@ -12,6 +12,7 @@ B.fill(234)
 
 print(A)#[[0. 1. 2. 3. 4. 5. 6. 7. 8. 9.]]
 print(A.shape)# (1,10)
+print(A.shape[1])
 
 print(A[0][2])#2.0
 print(B)
