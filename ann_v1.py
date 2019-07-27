@@ -5,11 +5,12 @@ import numpy as np
 import xlrd
 
 n_features = 3
+alpha = 0.5
 
 	
 
 def sigma(x):
-	return 1/(1+np.e * -x)
+	return 1/(1+np.e ** -x)
 
 
 def load():
@@ -30,22 +31,34 @@ def load():
 	dataset_shape = dataset_into_matrix.shape
 
 	X = np.transpose(np.delete(dataset_into_matrix,n_features,1))
-	Y = np.transpose(dataset_into_matrix[:,3])
+	Y = np.reshape(np.transpose(dataset_into_matrix[:,3]), (1,m))
 	W = np.zeros((n_features,1))
 	b = np.zeros((1,m))
 
-	Z = np.dot(np.transpose(W),X) + b
-	A = sigma(X)
-	print(A)
+	for i in range (0,1000):
+		Z = np.dot(np.transpose(W),X) + b
+		A = sigma(Z)
 
-	dz = A - Y
-	dw = np.dot(X,np.transpose(dz))/m
+		dz = A - Y
+		dw = np.dot(X,np.transpose(dz))/m
+		db = np.sum(dz)/m
 
+		W = W - alpha*dw
+		b = b - alpha*db
+
+
+
+	print("Shapes------")
 	print(dw)
-
+	print(dz.shape)
+	print(dw.shape)
+	print(X.shape)
 	print(Z.shape)
 	print(A.shape)
 	print(b.shape)
+	print(Y.shape)
+	print(W)
+	print(b)
 
 	
 
