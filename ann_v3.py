@@ -23,10 +23,19 @@
 import numpy as np
 import xlrd
 import math
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 n_features = 3
 alpha = 0.5
-iterations =1000
+iterations =500
+
+#graphs 
+iterations_for_x = []
+accuracy_for_y =[]
+weight_for_x = []
+b_for_y = []
+cost_for_z = []
 
 	
 
@@ -128,12 +137,19 @@ def load():
 		A_hat = np.round(sigma(Z_hat))
 
 		point = 0 ;
-		for i in range (0,Y_test.shape[1]):
-			if (Y_test[0][i] == A_hat[0][i]):
+		for j in range (0,Y_test.shape[1]):
+			if (Y_test[0][j] == A_hat[0][j]):
 				point = point + 1
 
 		Accuracy = round((point/m_testing)*100,1)
-		#print("Accuracy:                ",Accuracy,"%")
+		iterations_for_x.append(i)
+		accuracy_for_y.append(Accuracy)
+		cost = 1- Accuracy
+
+		weight_for_x.append(W)
+		b_for_y.append(b_traning)
+		cost_for_z.append(cost)
+   
 
 
 
@@ -162,6 +178,13 @@ def load():
 	print("Just look the similarity of Desired(top) one and predicted one(bottom)")
 	print(Y_test)
 	print(A_hat)
+
+	fig = make_subplots(rows = 1, cols = 2)
+	fig.add_trace(go.Scatter(x = iterations_for_x , y = accuracy_for_y),row =1,col =1)
+	fig.add_trace(go.Surface(x = weight_for_x , y = b_for_y, z = cost_for_z, colorscale='RdBu', showscale=False),row =1,col =2)
+	fig.update_layout(height = 600, width = 800, title_text = "Kasun's DeepMind")
+	fig.show()
+
 
 
 

@@ -23,10 +23,19 @@
 import numpy as np
 import xlrd
 import math
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 n_features = 3
 alpha = 0.5
-iterations =1000
+iterations =500
+
+#graphs 
+iterations_for_x = []
+accuracy_for_y =[]
+weight_for_x = []
+b_for_y = []
+cost_for_z = []
 
 	
 
@@ -35,7 +44,7 @@ def sigma(x):
 
 
 def load():
-	#print(sheet.cell_value(0,0),sheet.nrows,sheet.ncols) 
+	# loading data from exel
 	database1 = xlrd.open_workbook("D:/Projects/Git2/Old-School-Logistic-Regression-as-a-Neural-Network/fix_dataset2.xlsx")
 	sheet = database1.sheet_by_index(0)
 	fileds = []
@@ -70,21 +79,60 @@ def load():
 	training_dataset_shape = training_set.shape
 	testing_data_shape = testing_set.shape
 
-	X_train = np.transpose(np.delete(training_set,n_features,1))
-	X_test = np.transpose(np.delete(testing_set,n_features,1))
+	#Input
 
-	Y_train = np.reshape(np.transpose(training_set[:,3]), (1,m_traning -1))
-	Y_test = np.reshape(np.transpose(testing_set[:,3]), (1,m_testing -1))
+	X_Train = np.transpose(np.delete(training_set,n_features,1))
+	X_Test = np.transpose(np.delete(testing_set,n_features,1))
 
+	#Output
 
-	W = np.zeros((n_features,1))
-	b_traning = np.zeros((1,m_traning-1))
-	b_testing  = np.zeros((1,m_testing-1))
+	Y_Train = np.reshape(np.transpose(training_set[:,3]), (1,m_traning -1))
+	Y_Test = np.reshape(np.transpose(testing_set[:,3]), (1,m_testing -1))
+
+	
+	#Initialization 
+	#Training --------------------------
+	#Layer 1 ########################### 
+
+	In_L1_Training = X_train 
+	Out_L1 = np.zeros((2,1)) 
+	W1 = np.zeros((3,2))
+	b1_Training = np.zeros((1,m_traning-1))
+
+	#Layer 2 ########################### 
+
+	In_L2 = Out_L1
+	Out_L2 = np.zeros((2,1))
+	w2 = np.zeros((2,2))
+	b2_Training = np.zeros((1,m_traning-1))
+
+	#Layer 3 ########################### 
+
+	In_L3 = Out_L2
+	Out_L3 = 0
+	w3 = np.zeros((2,1))
+	b3_Training = np.zeros((1,m_traning-1))
+
+	#Testing-----------------------------
+	# Layer 1
+	In_L1_Testing = X_test
+	b1_Testing  = np.zeros((1,m_testing-1))
+
+	#Layer 2
+	b2_Testing  = np.zeros((1,m_testing-1))
+
+	#Layer3
+	b3_Testing  = np.zeros((1,m_testing-1))
+
 
 	for i in range (0,iterations):
-		Z = np.dot(np.transpose(W),X_train) + b_traning
-		A = sigma(Z)
 
+		#Layer 1
+		Z_L1 = np.dot(np.transpose(W1),X_Train) + b1_Traning
+		Out_L1 = sigma(Z_L1)
+
+		Z_L2 = np.dot(np.transpose(W3),In_L1_Training) + b1_Traning
+		Out_L2 = sigma(Z_L2)
 		#math between these lines 
 		
 		#lost fucntion, J(A,Y_tain) = -(Y_train*log(A) + (1-Y_train)log(1-A)) 
@@ -109,8 +157,15 @@ def load():
 		#dJ/dA = -y/a + (1-y)/(1-a)
 		
 		#dJ/dz = A-Y
-		#dJ/dW = (A-Y)X
-		#dJ/db = (A-Y)
+
+		#dJ/dw3 = (A3-Y)A2
+		#dJ/dw2 = (A3-A2)A1
+		#dJ/dw1 = (A2-A1)X_train
+
+		#dJ/db3 = (A3-Y)
+		#dJ/db2 = (A3-A2)
+		#dJ/db1 = (A2-A1)
+
 
 
 
@@ -119,8 +174,15 @@ def load():
 		db = np.sum(dz)/m_traning #(dJ/db) J is the cost function defined for the entire dataset 
 
 
-		W = W - alpha*dw
-		b_traning = b_traning - alpha*db
+
+		w3 = w3 - alpha*dw3
+		w2 = w2 - alpha*dw2
+		w1 = w1 - alpha*dw1
+
+		b3_traning = b3_traning - alpha*db3
+		b2_traning = b2_traning - alpha*db2
+		b1_traning = b1_traning - alpha*db1
+
 
 		#calculating the accurasy
 		b_testing.fill(b_traning[0][0])
@@ -128,12 +190,19 @@ def load():
 		A_hat = np.round(sigma(Z_hat))
 
 		point = 0 ;
-		for i in range (0,Y_test.shape[1]):
-			if (Y_test[0][i] == A_hat[0][i]):
+		for j in range (0,Y_test.shape[1]):
+			if (Y_test[0][j] == A_hat[0][j]):
 				point = point + 1
 
 		Accuracy = round((point/m_testing)*100,1)
-		#print("Accuracy:                ",Accuracy,"%")
+		iterations_for_x.append(i)
+		accuracy_for_y.append(Accuracy)
+		cost = 1- Accuracy
+
+		weight_for_x.append(W)
+		b_for_y.append(b_traning)
+		cost_for_z.append(cost)
+   
 
 
 
@@ -162,6 +231,13 @@ def load():
 	print("Just look the similarity of Desired(top) one and predicted one(bottom)")
 	print(Y_test)
 	print(A_hat)
+
+	fig = make_subplots(rows = 1, cols = 2)
+	fig.add_trace(go.Scatter(x = iterations_for_x , y = accuracy_for_y),row =1,col =1)
+	fig.add_trace(go.Surface(x = weight_for_x , y = b_for_y, z = cost_for_z, colorscale='RdBu', showscale=False),row =1,col =2)
+	fig.update_layout(height = 600, width = 800, title_text = "Kasun's DeepMind")
+	fig.show()
+
 
 
 
