@@ -12,8 +12,18 @@ B.fill(234)
 
 print(A)#[[0. 1. 2. 3. 4. 5. 6. 7. 8. 9.]]
 print(A.shape)# (1,10)
-print(A.shape[1])
+print(A.shape[1]) #10
 
 print(A[0][2])#2.0
-print(B)
+print(B) #[[234. 234. 234. 234. 234. 234. 234. 234. 234. 234.]]
 
+Out_L2 = np.zeros((2,1))
+Out_L2[0][0] =123
+Out_L2[1][0] =321
+
+print(Out_L2)#[[123.]
+             # [321.]]
+
+P = [1,2,3,45,6]
+print(len(P))
+print(P[0])

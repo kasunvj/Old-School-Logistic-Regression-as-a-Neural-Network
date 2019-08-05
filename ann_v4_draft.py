@@ -73,15 +73,15 @@ def load():
 			except:
 				fileds.append(sheet.cell_value(i,j))
 
-	training_set = np.delete(training_set,0,0)
-	testing_set = np.delete(testing_set,0,0)
+	training_set = np.delete(training_set,0,0) #Removing the top row
+	testing_set = np.delete(testing_set,0,0)  #Removing the top row
 
 	training_dataset_shape = training_set.shape
 	testing_data_shape = testing_set.shape
 
 	#Input
 
-	X_Train = np.transpose(np.delete(training_set,n_features,1))
+	X_Train = np.transpose(np.delete(training_set,n_features,1)) # Removing output column which is last column
 	X_Test = np.transpose(np.delete(testing_set,n_features,1))
 
 	#Output
@@ -128,10 +128,11 @@ def load():
 	for i in range (0,iterations):
 
 		#Layer 1
-		Z_L1 = np.dot(np.transpose(W1),X_Train) + b1_Traning
-		Out_L1 = sigma(Z_L1)
+		Z_L1 = np.dot(np.transpose(W1),X_Train) + b1_Traning # ZL_1 = (
+		Out_L1[0][0] = sigma(Z_L1[1][1])
+		Out_L1[1][0] = sigma(Z_L1[][])
 
-		Z_L2 = np.dot(np.transpose(W3),In_L1_Training) + b1_Traning
+		Z_L2 = np.dot(np.transpose(W2),In_L1_Training) + b1_Traning
 		Out_L2 = sigma(Z_L2)
 		#math between these lines 
 		
