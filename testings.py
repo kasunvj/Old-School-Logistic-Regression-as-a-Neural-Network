@@ -28,7 +28,7 @@ P = [1,2,3,45,6]
 print(len(P)) # 5
 print(P[0]) #1
 
-# Classes --------------
+# Classes ---------------------------------------
 class snake :
 	name = "pyhon"
 	length = "24"
@@ -57,7 +57,7 @@ print(snake_1.length)#56
 
 snake_1.change_matrix_dim(1,2)
 print(snake_1.matrix1.shape)#(10, 20)
-
+#--------------------------------------------------
 class girl :
 	def __init__(self,name,age):
 		self.name = name
@@ -71,7 +71,7 @@ girly_two = girl("Madu",22)
 
 print(girly_one.name)#Chalani
 
-
+#---------------------------------------------------
 class MatrixClass():
 	def __int__(self):
 		self.n = 0
@@ -84,6 +84,7 @@ class MatrixClass():
 print(MatrixClass().matrix(2,3)) #[[0. 0. 0.]
                                   #[0. 0. 0.]]
 
+#----------------------------------------------------
 xy = np.zeros((2,3))
 xy.fill(234)
 
@@ -91,8 +92,9 @@ class MatrixShow():
 	def show(self,Mat):
 		return Mat\
 
-print(MatrixShow().show(xy))
-
+print(MatrixShow().show(xy))# [[234. 234. 234.]
+                              #[234. 234. 234.]]
+#----------------------------------------------------
 
 
 

@@ -25,6 +25,7 @@ import xlrd
 import math
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from tqdm import tqdm
 
 n_features = 3
 alpha = 0.5
@@ -90,7 +91,7 @@ def load():
 	b_traning = np.zeros((1,m_traning-1))
 	b_testing  = np.zeros((1,m_testing-1))
 
-	for i in range (0,iterations):
+	for i in tqdm(range (0,iterations)):
 		Z = np.dot(np.transpose(W),X_train) + b_traning
 		A = sigma(Z)
 
@@ -179,11 +180,12 @@ def load():
 	print(Y_test)
 	print(A_hat)
 
-	fig = make_subplots(rows = 1, cols = 2)
-	fig.add_trace(go.Scatter(x = iterations_for_x , y = accuracy_for_y),row =1,col =1)
-	fig.add_trace(go.Surface(x = weight_for_x , y = b_for_y, z = cost_for_z, colorscale='RdBu', showscale=False),row =1,col =2)
-	fig.update_layout(height = 600, width = 800, title_text = "Kasun's DeepMind")
-	fig.show()
+#
+	# fig = make_subplots(rows = 1, cols = 2)
+	# fig.add_trace(go.Scatter(x = iterations_for_x , y = accuracy_for_y),row =1,col =1)
+	# fig.add_trace(go.Surface(x = weight_for_x , y = b_for_y, z = cost_for_z, colorscale='RdBu', showscale=False),row =1,col =2)
+	# fig.update_layout(height = 600, width = 800, title_text = "Kasun's DeepMind")
+	# fig.show()
 
 
 

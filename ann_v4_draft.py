@@ -94,9 +94,9 @@ def load():
 	#Training --------------------------
 	#Layer 1 ########################### 
 
-	In_L1_Training = X_train 
+	In_L1_Training = X_Train 
 	Out_L1 = np.zeros((2,1)) 
-	W1 = np.zeros((3,2))
+	w1 = np.zeros((3,2))
 	b1_Training = np.zeros((1,m_traning-1))
 
 	#Layer 2 ########################### 
@@ -115,7 +115,7 @@ def load():
 
 	#Testing-----------------------------
 	# Layer 1
-	In_L1_Testing = X_test
+	In_L1_Testing = X_Test
 	b1_Testing  = np.zeros((1,m_testing-1))
 
 	#Layer 2
@@ -128,11 +128,11 @@ def load():
 	for i in range (0,iterations):
 
 		#Layer 1
-		Z_L1 = np.dot(np.transpose(W1),X_Train) + b1_Traning # ZL_1 = (
-		Out_L1[0][0] = sigma(Z_L1[1][1])
-		Out_L1[1][0] = sigma(Z_L1[][])
+		Z_L1 = np.dot(np.transpose(w1),X_Train) + b1_Training # ZL_1 = (
+		Out_L1[0][0] = sigma(Z_L1[0][0])
+		Out_L1[1][0] = sigma(Z_L1[1][0])
 
-		Z_L2 = np.dot(np.transpose(W2),In_L1_Training) + b1_Traning
+		Z_L2 = np.dot(np.transpose(w2),In_L1_Training) + b1_Traning
 		Out_L2 = sigma(Z_L2)
 		#math between these lines 
 		

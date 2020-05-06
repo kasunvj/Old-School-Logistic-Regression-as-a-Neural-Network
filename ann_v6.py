@@ -91,16 +91,16 @@ print(Y_Test.shape)
 print("Data Loading Done ...")
 
 class NeuralNetwork:
-	def inputLayer(self,input):
+	def input(self,input):
 		self.input = input
-		return input
+		return np.transpose(input)
 
-	def layer(self,prev_mat,number_of_neu, activation ):
+	def weight(self,prev_mat,number_of_neu, activation ):
 		self.prev_mat = prev_mat
 		self.number_of_neu = number_of_neu
 		self.activation = activation
 
-		n = prev_mat.shape[0]
+		n = prev_mat.shape[1]
 		m = number_of_neu
 
 		weight = np.zeros((n,m))
@@ -108,10 +108,13 @@ class NeuralNetwork:
 		return weight
 
 
-layer0 = NeuralNetwork().inputLayer(X_Train)
-layer1 = NeuralNetwork().layer(layer0,2,"rlu")
-layer2 = NeuralNetwork().layer(layer1,3,"rlu")
-layer3 = NeuralNetwork().layer(layer2,2,"rlu")
+
+layer0 = NeuralNetwork().input(X_Train)
+layer1 = NeuralNetwork().weight(layer0,3,"rlu")
+layer2 = NeuralNetwork().weight(layer1,4,"rlu")
+layer3 = NeuralNetwork().weight(layer2,1,"rlu")
+
+
 
 print(layer0.shape)
 print(layer1.shape)
